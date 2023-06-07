@@ -12,9 +12,20 @@
 
         <!-- Navigation Links -->
         <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+          <!--Admin Nav-->
+          @if(Auth::user()->role == 1)
+          <x-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
+            {{ __('Dashboard') }}
+          </x-nav-link>
+          <x-nav-link :href="route('admin.users.index')" :active="request()->routeIs('admin.users.index')">
+            {{ __('Users') }}
+          </x-nav-link>
+          <!--User Nav-->
+          @elseif(Auth::user()->role == 0)
           <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
             {{ __('Dashboard') }}
           </x-nav-link>
+          @endif
         </div>
       </div>
 
@@ -66,9 +77,23 @@
   <!-- Responsive Navigation Menu -->
   <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
     <div class="pt-2 pb-3 space-y-1">
+      <!--Responsive Admin Nav-->
+      @if(Auth::user()->role == 1)
+      <x-responsive-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
+        {{ __('Dashboard') }}
+      </x-responsive-nav-link>
+      <x-responsive-nav-link :href="route('admin.users.index')" :active="request()->routeIs('admin.users.index')">
+        {{ __('Users') }}
+      </x-responsive-nav-link>
+
+
+      <!--Responsive User Nav-->
+      @elseif(Auth::user()->role == 0)
       <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
         {{ __('Dashboard') }}
       </x-responsive-nav-link>
+
+      @endif
     </div>
 
     <!-- Responsive Settings Options -->

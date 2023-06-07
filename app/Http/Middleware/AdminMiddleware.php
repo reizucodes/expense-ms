@@ -18,11 +18,13 @@ class AdminMiddleware
     {
         //check if authenticated and is Admin role (1)
         //print($next);
-        if (auth::check() && Auth::user()->role == 1) {
-            return $next($request);
-        } else {
-            return redirect()->route('login');
+        if (auth::check()) {
+            if (Auth::user()->role == 1) {
+                return $next($request);
+            }
+            return back()->with('success', 'Admin access only.');
         }
+        //return redirect()->route('login')->with('error', 'You are not logged in.');
         //return back()->with('error', 'Admin access only!');
     }
 }

@@ -17,11 +17,11 @@ class UserMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         //check if authenticated and is user role (0)
-        if (auth::check() && Auth::user()->role == 0) {
-            return $next($request);
-        } else {
-            return redirect()->route('login')->with('error', 'User access only!');
+        if (auth::check()) {
+            if (Auth::user()->role == 0) {
+                return $next($request);
+            }
+            return back()->with('error', 'User access only.');
         }
-        //return back()->with('error', 'User access only!');
     }
 }
