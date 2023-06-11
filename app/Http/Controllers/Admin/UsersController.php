@@ -4,7 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rules;
+use Illuminate\Support\Facades\Hash;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class UsersController extends Controller
 {
@@ -23,7 +27,8 @@ class UsersController extends Controller
      */
     public function create()
     {
-        //
+        //return "hello create";
+        return view('admin.users.create');
     }
 
     /**
@@ -31,13 +36,29 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //always use try catch for error handling
+        try {
+            $request->validate([
+                'role' => ['required', 'numeric', 'max:3'],
+                'name' => ['required', 'string', 'max:255'],
+                'email' => ['required', 'string', 'email', 'max:255', 'unique:' . User::class],
+                'password' => ['required', 'string', Rules\Password::defaults()],
+            ]);
+            User::create([
+                'role' => $request->role,
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+            ]);
+            return redirect()->back()->with('success', 'User added.');
+        } catch (Exception $exception) {
+            return redirect()->back()->with('error', $exception->getMessage());
+        }
     }
-
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($id)
     {
         //
     }
@@ -47,7 +68,9 @@ class UsersController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        //return $id;
+        $user = User::find($id);
+        return view('admin.users.edit')->with('user', $user);
     }
 
     /**
@@ -65,6 +88,6 @@ class UsersController extends Controller
     {
         //
         $user->delete();
-        return back()->with('success', 'User deleted');
+        return back()->with('success', 'User deleted.');
     }
 }
