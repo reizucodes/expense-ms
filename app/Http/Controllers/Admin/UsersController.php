@@ -6,9 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rules;
 use Illuminate\Support\Facades\Hash;
-use Symfony\Component\HttpKernel\Exception\HttpException;
+use Illuminate\Validation\Rules\Password;
 
 class UsersController extends Controller
 {
@@ -37,22 +36,26 @@ class UsersController extends Controller
     public function store(Request $request)
     {
         //always use try catch for error handling
-        try {
-            $request->validate([
-                'role' => ['required', 'numeric', 'max:3'],
-                'name' => ['required', 'string', 'max:255'],
-                'email' => ['required', 'string', 'email', 'max:255', 'unique:' . User::class],
-                'password' => ['required', 'string', Rules\Password::defaults()],
-            ]);
-            User::create([
-                'role' => $request->role,
-                'name' => $request->name,
-                'email' => $request->email,
-                'password' => Hash::make($request->password),
-            ]);
-            return redirect()->back()->with('success', 'User added.');
-        } catch (Exception $exception) {
-            return redirect()->back()->with('error', $exception->getMessage());
+        if ($request->password != $request->password_confirmation)
+            return back()->with('error', 'Passwords do not match.');
+        else {
+            try {
+                $request->validate([
+                    'role' => ['required', 'numeric', 'max:3'],
+                    'name' => ['required', 'string', 'max:255'],
+                    'email' => ['required', 'string', 'email', 'max:255', 'unique:' . User::class],
+                    'password' => ['required', 'string', new Password(8)],
+                ]);
+                User::create([
+                    'role' => $request->role,
+                    'name' => $request->name,
+                    'email' => $request->email,
+                    'password' => Hash::make($request->password),
+                ]);
+                return redirect()->back()->with('success', 'User added.');
+            } catch (Exception $exception) {
+                return redirect()->back()->with('error', $exception->getMessage());
+            }
         }
     }
     /**
@@ -79,6 +82,30 @@ class UsersController extends Controller
     public function update(Request $request, string $id)
     {
         //
+        $user = User::find($id);
+        try {
+            #if user email remains unchanged, validate password only
+            if ($request->email == $user->email) {
+                $request->validate([
+                    'password' => ['required', 'string', new Password(8)],
+                ]);
+            } else {
+                #validate new email
+                $request->validate([
+                    'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+                    'password' => ['required', 'string', new Password(8)],
+                ]);
+            }
+            $user->update([
+                'role' => $request->role,
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+            ]);
+            return redirect()->back()->with('success', 'User updated.');
+        } catch (Exception $exception) {
+            return redirect()->back()->with('error', $exception->getMessage());
+        }
     }
 
     /**

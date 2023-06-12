@@ -31,7 +31,7 @@
             </thead>
             <tbody>
               @foreach($users as $user)
-              <tr class="bg-white border-b   hover:bg-gray-50 ">
+              <tr class="bg-white border-b hover:bg-gray-50 ">
                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
                   {{$user->name}}
                 </th>
@@ -45,7 +45,7 @@
                 <td class="px-6 py-4">
                   {{$role}}
                 </td>
-                <td class="px-6 py-4 ">
+                <td class="px-6 py-4">
                   <div class="grid-cols-2">
                     <!-- Edit Button -->
                     <a href="{{route('admin.users.edit', $user->id)}}" rel="modal:open" class="font-medium text-blue-600 hover:underline">Edit</a>
@@ -61,12 +61,17 @@
         </tbody>
         </table>
       </div>
-      <div class="mt-4 float-right">
-        <a href="{{route('admin.users.create')}}" rel="modal:open" class="inline-flex items-center px-3 py-2 border border-transparent rounded-md font-semibold text-xs text-gray-600 uppercase tracking-widest shadow-md bg-green-300 hover:bg-green-400 hover:text-gray-200 disabled:opacity-25 transition ease-in-out duration-150"> Create
+      <div class="mt-4 float-right text-sm">
+        
+        <a href="{{route('admin.users.create')}}" rel="modal:open" class="ml-2 mr-1 font-medium text-green-600  hover:underline"> New User
         </a>
       </div>
     </div>
   </div>
-  </div>
   <!--/container-->
 </x-app-layout>
+<!-- CREATE BUTTON -->
+<!--
+<a href="{{route('admin.users.create')}}" rel="modal:open" class="inline-flex items-center px-3 py-2 border border-transparent rounded-md font-semibold text-xs text-gray-600 uppercase tracking-widest shadow-md bg-green-300 hover:bg-green-400 hover:text-gray-200 disabled:opacity-25 transition ease-in-out duration-150"> Create
+        </a>
+-->

@@ -1,9 +1,7 @@
 <div id={{route('admin.users.create')}}">
   <div class="relative w-full max-w-md max-h-full">
-
-    <div class="p-6 pb-2 text-center">
-      <h2 class="text-lg font-normal text-gray-800 dark:text-gray-400">Add User</h2>
-
+    <div class="px-6 py-2 text-center">
+      <h2 class="text-lg font-medium text-gray-500">Add User</h2>
       <form action="{{route('admin.users.store')}}" method="POST">
         @csrf
         <!-- Name-->
@@ -33,7 +31,7 @@
         <!-- User Type -->
         <div class="inline-block relative h-full w-full mt-4 text-left">
           <x-input-label for="role" :value="__('User Role')" />
-          <select id="role" name="role" class="block  mt-1 appearance-none w-full bg-white border-gray-300  hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
+          <select id="role" name="role" class="block  mt-1 appearance-none w-full text-gray-500 bg-white border-gray-300  hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
             <option selected>Select user type</option>
             <option value="1">admin</option>
             <option value="0">user</option>
@@ -41,10 +39,10 @@
         </div>
         <!-- Submit and Cancel-->
         <div class="flex items-center justify-end mt-4">
-          <button type="submit" class="ml-4 inline-flex items-center px-3 py-2 border border-transparent rounded-md font-semibold text-xs text-gray-600 uppercase tracking-widest shadow-md bg-green-300 hover:bg-green-400 hover:text-gray-200 disabled:opacity-25 transition ease-in-out duration-150">
+            <button type="submit" class="inline-flex items-center px-3 py-2 border border-transparent rounded-md font-semibold text-xs text-gray-600 uppercase tracking-widest shadow-md hover:shadow-lg bg-green-300 hover:bg-green-400 hover:text-gray-200 disabled:opacity-25 transition ease-in-out duration-150">
             {{ __('Create User') }}
           </button>
-          <a href="" rel="modal:close" class="ml-4 inline-flex items-center px-3 py-2 border border-transparent rounded-md font-semibold text-xs text-gray-600 uppercase tracking-widest shadow-md bg-red-300 hover:bg-red-400 hover:text-gray-200 disabled:opacity-25 transition ease-in-out duration-150">
+          <a href="" rel="modal:close" class="ml-2 inline-flex items-center px-3 py-2 border border-transparent rounded-md font-semibold text-xs text-gray-600 uppercase tracking-widest shadow-md hover:shadow-lg bg-red-300 hover:bg-red-400 hover:text-gray-200 disabled:opacity-25 transition ease-in-out duration-150">
             {{ __('Cancel') }}
           </a>
         </div>
@@ -52,3 +50,13 @@
     </div>
   </div>
 </div>
+<!--
+
+
+                    <button type="submit" class="font-medium text-green-600  hover:underline">
+            {{ __('Create') }}
+          </button>
+          <a href="" rel="modal:close" class="ml-2 font-medium text-red-600  hover:underline">
+            {{ __('Cancel') }}
+          </a>
+-->
