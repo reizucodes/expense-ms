@@ -15,15 +15,60 @@
           <!--Admin Nav-->
           @if(Auth::user()->role == 1)
           <x-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
-            {{ __('Dashboard') }}
+            {{ __('Dashboard') }} 
+            <span class="ml-2 px-2 py-1 text-xs text-white font-medium bg-yellow-400 rounded-full ">
+              Pending
+            </span>
           </x-nav-link>
           <x-nav-link :href="route('admin.users.index')" :active="request()->routeIs('admin.users.index')">
-            {{ __('Users') }}
+            {{ __('Users') }} 
+            <span class="ml-2 px-2 py-1 text-xs text-white font-medium bg-green-400 rounded-full ">
+              Complete
+            </span>
           </x-nav-link>
+          <div class="hidden sm:flex sm:items-center sm:ml-6">
+            <x-dropdown align="right" width="48">
+              <x-slot name="trigger">
+                <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
+                  <div>Expense Management</div>
+                  <div class="ml-1">
+                    <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                    </svg>
+                  </div>
+                </button>
+              </x-slot>
+    
+              <x-slot name="content">
+                <x-dropdown-link :href="route('expense.index') ">
+                  {{ __('Expenses') }}
+                  <span class="ml-2 px-2 py-1 text-xs text-white font-medium bg-yellow-400 rounded-full ">
+                    Pending
+                  </span>
+                </x-dropdown-link>
+                <x-dropdown-link :href="route('admin.category.index')">
+                  {{ __('Category') }}
+                  <span class="ml-2 px-2 py-1 text-xs text-white font-medium bg-yellow-400 rounded-full ">
+                    Pending
+                  </span>
+                </x-dropdown-link>
+ 
+              </x-slot>
+            </x-dropdown>
+          </div>
           <!--User Nav-->
           @elseif(Auth::user()->role == 0)
           <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-            {{ __('Dashboard') }}
+            {{ __('Dashboard') }} 
+             <span class="ml-2 px-2 py-1 text-xs text-white font-medium bg-yellow-400 rounded-full ">
+              Pending
+            </span>
+          </x-nav-link>
+          <x-nav-link :href="route('profile.edit')" :active="request()->routeIs('profile.edit')">
+            {{ __('Expense Management') }} 
+             <span class="ml-2 px-2 py-1 text-xs text-white font-medium bg-yellow-400 rounded-full ">
+              Pending
+            </span>
           </x-nav-link>
           @endif
         </div>

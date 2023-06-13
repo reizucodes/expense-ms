@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\Admin\DashboardController as AdminDashboard;
+use App\Http\Controllers\Admin\ExpenseCategoryController;
 use App\Http\Controllers\Admin\UsersController;
+use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\User\DashboardController as UserDashBoard;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -26,6 +28,7 @@ Route::get('/', function () {
 
 Route::group(['as' => 'admin.', 'prefix' => 'admin', 'middleware' => ['auth', 'isAdmin']], function () {
     Route::get('dashboard', [AdminDashboard::class, 'index'])->name('dashboard');
+    Route::resource('category', ExpenseCategoryController::class);
     Route::resource('users', UsersController::class);
 });
 
@@ -33,6 +36,7 @@ Route::group(['as' => '', 'prefix' => '', 'middleware' => ['auth', 'isUser']], f
     Route::get('dashboard', [UserDashboard::class, 'index'])->name('dashboard');
 });
 
+Route::resource('expense', ExpenseController::class);
 
 
 /*
