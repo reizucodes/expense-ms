@@ -43,4 +43,12 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+    /**
+     * This function converts role booleans 1s and 0s to 'admin' and 'user' respectively
+     * 
+     *     public function getRoleAttribute($value)
+     *     {
+     *         return $value ? 'admin' : 'user';
+     *     }
+     */
 }
